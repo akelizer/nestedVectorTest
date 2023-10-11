@@ -46,13 +46,31 @@ To populate this nested vector, I expect it'll look something like this:
 
 ```c++
 NestedVector v(2);  // This example (same as above) has just two nesting levels
+// m_tree = []
+// m_data = []
 
 v.reserve(0, 3); // Reserve space for three items at the outer level
-v.reserve(1, 3); // Reserve space for three items at the next slot in the inner level
+// m_tree = [3,0,0,0,0]
+                  | | | <--------- 3 placeholders for the node pointers
+// m_data = []
 
-v.append(7.7); 
+v.reserve(1, 3); // Reserve space for three items at the next slot in the inner level
+// m+tree = [3,1,5,0,0,[3,0,0,0,0]]
+                            | | |  <--------- placeholders for data pointers
+// m_data = []
+
+v.append(7.7);
+// m+tree = [3,1,5,0,0,[3,1,0,0,0]]
+// m_data = [7.7]
+
 v.append(1.9);
+// m+tree = [3,1,5,0,0,[3,2,0,1,0]]
+// m_data = [7.7, 1.9]
+
 v.append(8);
+// m+tree = [3,1,5,0,0,[3,3,0,1,2]]
+// m_data = [7.7, 1.9, 8]
+
 
 v.reserve(1,2); // Reserve space for two items at the next slot in the inner level
 
@@ -144,6 +162,8 @@ cd build
 make
 ./nestedvector_tests
 ```
+
+
 
 
 
