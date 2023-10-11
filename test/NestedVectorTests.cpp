@@ -5,8 +5,6 @@
 #include <catch.hpp>
 #include <NestedVectorEasy.hpp>
 
-
-
 TEST_CASE("NestedVector_BasicExample") {
 
     NestedVectorEasy v(2);
