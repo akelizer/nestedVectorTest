@@ -25,10 +25,6 @@ void NestedVectorHard::reserve(size_t level, size_t count) {
     std::vector<size_t> node(count+2);    // creates node with [3,0,0,0,0], pehaps with some constructor.
     std::vector<size_t>::iterator nodeIterator;
 
-    //append m_tree with newly created node
-    int size = node.size();
-
-    
     // maybe some vector initialization function?
     nodeIterator = node.begin();
     *nodeIterator = count;
@@ -37,10 +33,21 @@ void NestedVectorHard::reserve(size_t level, size_t count) {
     for (nodeIterator = node.begin()+1; nodeIterator != node.end(); nodeIterator++)
         *nodeIterator = 0; // fills the vector with 0s on first initialzation except the first index.
     
-    // appends m_tree with new node values
+    // appends new node values to m_tree
     for (nodeIterator = node.begin(); nodeIterator != node.end(); nodeIterator++)
         m_tree->push_back(*nodeIterator);
 
+
+    // updates values in parent node to reflect increase in size. In this case, it will be root node.
+    std::vector<int>::iterator treeIterator;
+
+     //for (treeIterator = m_tree.begin(); treeIterator != m_tree.end(); treeIterator++)
+        
+        if (m_tree[1] < m_tree[0])
+            m_tree[1] += 1; // increment size parameter in parent node
+        
+        //update child node offset for new node.
+        m_tree[2+size] = m_tree.length() + 1; // assigns node offset to the previous length of m_tree + 1. How to retrieve previous length of m_tree?
 
 
     //need to delete node
