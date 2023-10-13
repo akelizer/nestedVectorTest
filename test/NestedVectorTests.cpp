@@ -3,11 +3,11 @@
 
 #define CATCH_CONFIG_MAIN
 #include <catch.hpp>
-#include <NestedVectorEasy.hpp>
+#include <NestedVectorHard.hpp>
 
 TEST_CASE("NestedVector_BasicExample") {
 
-    NestedVectorEasy v(2);
+    NestedVectorHard v(2);
     REQUIRE(v.depth() == 2);
 
     // Test reserving and appending

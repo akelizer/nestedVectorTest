@@ -60,15 +60,15 @@ v.reserve(1, 3); // Reserve space for three items at the next slot in the inner 
 // m_data = []
 
 v.append(7.7);
-// m+tree = [3,1,5,0,0,[3,1,0,0,0]]
+// m_tree = [3,1,5,0,0,[3,1,0,0,0]]
 // m_data = [7.7]
 
 v.append(1.9);
-// m+tree = [3,1,5,0,0,[3,2,0,1,0]]
+// m_tree = [3,1,5,0,0,[3,2,0,1,0]]
 // m_data = [7.7, 1.9]
 
 v.append(8);
-// m+tree = [3,1,5,0,0,[3,3,0,1,2]]
+// m_tree = [3,1,5,0,0,[3,3,0,1,2]]
 // m_data = [7.7, 1.9, 8]
 
 

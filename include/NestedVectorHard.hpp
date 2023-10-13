@@ -2,11 +2,14 @@
 // Subject to the terms in the LICENSE file found in the top-level directory.
 
 #include "TensorIndices.hpp"
+#include <vector>
 
 class NestedVectorHard {
 private:
-    size_t m_depth;
+    size_t m_depth;// Indicates the height of the tree.
     // TODO: Add data structures here!
+    std::vector <double> v;
+    double m_data[];
 
 public:
     NestedVectorHard(size_t depth);
