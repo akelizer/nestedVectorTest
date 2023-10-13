@@ -22,22 +22,21 @@ void NestedVectorHard::reserve(size_t level, size_t count) {
         return error "out of depth";
 
 
-    indexType BranchingNode = findNextAvailableNode(startOfTree) // recursive function to find the next available node to branch from in m_tree and return its starting index value
+    indexType AvailableNodeIndex = findNextAvailableNode(startOfTree) 
+        // recursive function to find the next available node to branch from in m_tree and return its starting index value. The available node must not be filled to capacity.
     
-    incrementNodeSize(BranchingNodeIndex)
-    // updates values in node to reflect increase in its size. In this test case, it will be root node.
-    // std::vector<int>::iterator treeIterator <----- may use iterator to perform operation outside of this specific test case.
-        if (m_tree[1] < m_tree[0])
-            m_tree[1] += 1; // increment size parameter in parent node
+    incrementNodeSize(AvailableNodeIndex)
+        // updates values in node to reflect increase in its size.
+        m_tree[AvailableNodeIndex+1] += 1; // increment size value in available node by 1.
     
-    setAddressOfChildOffset(BranchingNodeIndex)
-        // sets the child node offset value within the branching node.
-        availableBranchIndex = findAvailableBranch(BranchingNodeIndex)
-        // finds index of next available branch in the node
-        stepAmount = BranchingNodeCapacity - BranchingNodeSize;
-        BranchIndex = m_tree[m_tree.end() - stepAmount];
+    setAddressOfChildOffset(AvailableNodeIndex)
+        // sets the child node offset value within the available node.
+        availableBranchIndex = findAvailableBranch(AvailableNodeIndex)  // sub function to retrieve this index??
+            // finds index of next available branch in the node
+            stepAmount = m_tree[AvailableNodeIndex] - m_tree[AvailableNodeIndex+1]; 
+            BranchIndex = m_tree[m_tree.end() - stepAmount];
 
-        m_tree[BranchingNodeIndex] = m_tree.length() + 1; // assigns node offset to the previous length of m_tree + 1.
+        m_tree[BranchIndex] = m_tree.length() + 1; // assigns node offset to the previous length of m_tree + 1.
         
 
     appendNewNodeToMainTree(capacity);
@@ -46,9 +45,12 @@ void NestedVectorHard::reserve(size_t level, size_t count) {
     std::vector<size_t>::iterator nodeIterator;
 
     // fills the vector with 0s on first initialzation except the first index.
-    for (nodeIterator = node.begin()+1; nodeIterator != node.end(); nodeIterator++)
-        *nodeIterator = 0; // fills the vector with 0s on first initialzation except the first index.
-    
+    for (nodeIterator = node.begin(); nodeIterator != node.end(); nodeIterator++){
+        if (nodeIterator == node.begin())
+            *nodeIterator = capacity;   // puts capacity value into first index of vector.
+        else 
+            *nodeIterator = 0; // fills the vector with 0's except the first index.
+        }
     // appends new node values to m_tree. Maybe put this routine towards the bottom after main tree has updated its child offsets. 
     for (nodeIterator = node.begin(); nodeIterator != node.end(); nodeIterator++)
         m_tree->push_back(*nodeIterator);
