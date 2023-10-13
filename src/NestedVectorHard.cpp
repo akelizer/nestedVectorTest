@@ -14,45 +14,48 @@ double NestedVectorHard::get(const TensorIndices& indices) {
 }
 
 void NestedVectorHard::reserve(size_t level, size_t count) {
-    // TODO: Implement me!
-    // After some thinking, this function may need to have recursive controls in order to update the nodes along the tree in addition to appending m_tree
     
+    // check if branching is allowed on current tree level
     if (m_depth - 1 <= level)
-    m_level = level;
+    m_level = level; // update current level on tree
     else   
         return error "out of depth";
 
-    std::vector<size_t> node(count+2);    // creates node with [3,0,0,0,0], pehaps with some constructor.
-    std::vector<size_t>::iterator nodeIterator;
 
-    // maybe some vector initialization function?
-    nodeIterator = node.begin();
-    *nodeIterator = count;
+    indexType BranchingNode = findNextAvailableNode(startOfTree) // recursive function to find the next available node to branch from in m_tree and return its starting index value
+    
+    incrementNodeSize(BranchingNodeIndex)
+    // updates values in node to reflect increase in its size. In this test case, it will be root node.
+    // std::vector<int>::iterator treeIterator <----- may use iterator to perform operation outside of this specific test case.
+        if (m_tree[1] < m_tree[0])
+            m_tree[1] += 1; // increment size parameter in parent node
+    
+    setAddressOfChildOffset(BranchingNodeIndex)
+        // sets the child node offset value within the branching node.
+        availableBranchIndex = findAvailableBranch(BranchingNodeIndex)
+        // finds index of next available branch in the node
+        stepAmount = BranchingNodeCapacity - BranchingNodeSize;
+        BranchIndex = m_tree[m_tree.end() - stepAmount];
+
+        m_tree[BranchingNodeIndex] = m_tree.length() + 1; // assigns node offset to the previous length of m_tree + 1.
+        
+
+    appendNewNodeToMainTree(capacity);
+    // build out empty vector to hold node's data.
+    std::vector<size_t> node(count+2);    // creates node with [0,0,0,0,0], pehaps with some constructor.
+    std::vector<size_t>::iterator nodeIterator;
 
     // fills the vector with 0s on first initialzation except the first index.
     for (nodeIterator = node.begin()+1; nodeIterator != node.end(); nodeIterator++)
         *nodeIterator = 0; // fills the vector with 0s on first initialzation except the first index.
     
-    // appends new node values to m_tree
+    // appends new node values to m_tree. Maybe put this routine towards the bottom after main tree has updated its child offsets. 
     for (nodeIterator = node.begin(); nodeIterator != node.end(); nodeIterator++)
         m_tree->push_back(*nodeIterator);
 
 
-    // updates values in parent node to reflect increase in size. In this case, it will be root node.
-    std::vector<int>::iterator treeIterator;
 
-     //for (treeIterator = m_tree.begin(); treeIterator != m_tree.end(); treeIterator++)
-        
-        if (m_tree[1] < m_tree[0])
-            m_tree[1] += 1; // increment size parameter in parent node
-        
-        //update child node offset for new node.
-        m_tree[2+size] = m_tree.length() + 1; // assigns node offset to the previous length of m_tree + 1. How to retrieve previous length of m_tree?
-
-
-    //need to delete node
-
-
+    delete node;
 
 }
 
