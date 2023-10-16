@@ -22,10 +22,9 @@ void NestedVectorHard::reserve(size_t level, size_t count) {
     else   
         return error "out of depth";
     **/
-
-
-   if (m_tree[0] == 0) // or if m_tree[0] == null || if (m_tree.length() == null)? // some way to prove no node has been created yet.
+   if (m_tree.size() == 0) // || if (m_tree.length() == null)? // some way to prove no node has been created yet.
       appendNewNodeToMainTree(count);
+
     else {
         size_t availableNodeIndex = findAvailableNode();
         incrementNodeSize(availableNodeIndex);
@@ -35,17 +34,21 @@ void NestedVectorHard::reserve(size_t level, size_t count) {
     }
     
 
-// new version of findAvailableNode(). Returns the starting index of the next available node in m_tree
+// Returns the starting index of the next available node in m_tree
 
 size_t NestedVectorHard::findAvailableNode(size_t index){
     if (nodeIsAvailable(index))
         return index;
+        
     else 
+    {
         size_t firstChild = index + 2;
-        size_t lastChild = index + m_tree[index] + 1;
-        for (size_t childIndex = firstChild; childIndex < lastChild; childIndex++)
+        size_t lastChildIndex = index + m_tree[index] + 1;
+        for (size_t childIndex = firstChild; childIndex < lastChildIndex; childIndex++){
             findAvailableNode(m_tree[childIndex]);
-
+            break;
+        }
+    }
 }
 
 bool NestedVectorHard::nodeIsAvailable(size_t index){
@@ -75,18 +78,17 @@ void NestedVectorHard::incrementNodeSize(size_t AvailableNodeIndex)
 
 
 // new version of setAddressOfChild().
-void NestedVectorHard::setAddressOfChild(size_t index) {
-    size_t remainingBranches = m_tree[index] - m_tree[index+1];
-    size_t indexOfAvailableBranch = m_tree.length() - remainingBranches;
+void NestedVectorHard::setAddressOfChild(size_t indexOfNode) {
+    size_t remainingBranches = m_tree[indexOfNode] - m_tree[indexOfNode+1];
+    size_t indexOfAvailableBranch = m_tree.size() - remainingBranches;
     m_tree[indexOfAvailableBranch] = m_tree.size()+1; // the address of the child node will be one index past the current m_tree size.
 }
 
-void NestedVectorHard::setAddressOfLeaf(size_t availableNodeIndex) {
-    size_t remainingBranches = m_tree[index] - m_tree[index+1];
-    size_t indexOfAvailableBranch = m_tree.length() - remainingBranches;
-    m_tree.insert(indexOfAvailableBranch, m_data.size()-1) // stores the index of m_data[] into the appropriate node value within m_tree
+void NestedVectorHard::setAddressOfLeaf(size_t indexOfNode) {
+    size_t remainingBranches = m_tree[indexOfNode] - m_tree[indexOfNode+1];
+    size_t indexOfAvailableBranch = m_tree.size() - remainingBranches;
+    m_tree[indexOfAvailableBranch] = m_data.size() - 1;
 }
-
 /**
 // OLD Version ::::
 sets the child node offset value within the available node.
@@ -123,13 +125,13 @@ void NestedVectorHard::append(double data) {
     setAddressOfLeaf(availableNodeIndex);
 }
 
+
 size_t NestedVectorHard::depth() {
     return m_depth;
 }
 
 size_t NestedVectorHard::size(const TensorIndices& indices) {
     // TODO: Implement me!
-
     return 0;
 }
 
