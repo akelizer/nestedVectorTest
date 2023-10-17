@@ -77,12 +77,19 @@ void NestedVectorHard::incrementNodeSize(size_t AvailableNodeIndex)
 
 
 
-// new version of setAddressOfChild().
+// new version of setAddressOfChild(). Subtracts the remaining branch slots from the last index in the current node to find which index to branch from.
 void NestedVectorHard::setAddressOfChild(size_t indexOfNode) {
     size_t remainingBranches = m_tree[indexOfNode] - m_tree[indexOfNode+1];
-    size_t indexOfAvailableBranch = m_tree.size() - remainingBranches;
-    m_tree[indexOfAvailableBranch] = m_tree.size()+1; // the address of the child node will be one index past the current m_tree size.
+
+    //may need to put this line couple in a separate function.
+    size_t sizeOfNode = m_tree[indexOfNode] + 1;
+    size_t lastIndexOfNode = indexOfNode + sizeOfNode;
+
+    size_t indexOfAvailableBranch = lastIndexOfNode - remainingBranches; // do I actually have control over the size?
+    m_tree[indexOfAvailableBranch] = m_tree.size(); // the address of the child node will be one index past the current m_tree size.
 }
+
+
 
 void NestedVectorHard::setAddressOfLeaf(size_t indexOfNode) {
     size_t remainingBranches = m_tree[indexOfNode] - m_tree[indexOfNode+1];
@@ -122,6 +129,7 @@ void NestedVectorHard::appendNewNodeToMainTree(size_t capacity) {
 void NestedVectorHard::append(double data) {
     m_data.push_back(data); // append m_data vector with a value provided
     size_t availableNodeIndex = findAvailableNode();
+    incrementNodeSize(availableNodeIndex);
     setAddressOfLeaf(availableNodeIndex);
 }
 
