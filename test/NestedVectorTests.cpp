@@ -17,7 +17,7 @@ TEST_CASE("NestedVector_BasicExample") {
     // std::cout << "m_tree[] size: " << v.m_tree.size() << std::endl;
 
     v.reserve(0, 3); // Reserve space for three items at the outer level
-    std::cout << "m_tree[] = ";
+    std::cout << "reserved node on m_tree[] = ";
     for (auto itr : v.m_tree)
         std::cout << itr << ",";
     std::cout << std::endl;
@@ -25,7 +25,7 @@ TEST_CASE("NestedVector_BasicExample") {
 
 
     v.reserve(1, 3); // Reserve space for three items at the next slot in the inner level
-    std::cout << "m_tree[] = ";
+    std::cout << "reserved node on m_tree[] = ";
     for (auto itr : v.m_tree)
         std::cout << itr << ",";
     std::cout << std::endl;
@@ -33,7 +33,7 @@ TEST_CASE("NestedVector_BasicExample") {
     std::cout << "m_tree[] size: " << v.m_tree.size() << std::endl;
 
     v.append(7.7); 
-    std::cout << "appended m_tree[] = ";
+    std::cout << "appended 7.7 on m_tree[] = ";
     for (auto itr : v.m_tree)
         std::cout << itr << ",";
     std::cout << std::endl;
@@ -45,7 +45,7 @@ TEST_CASE("NestedVector_BasicExample") {
 
 
     v.append(7.7);
-    std::cout << "appended m_tree[] = ";
+    std::cout << "appended 7.7 on m_tree[] = ";
     for (auto itr : v.m_tree)
         std::cout << itr << ",";
     std::cout << std::endl; 
@@ -57,7 +57,7 @@ TEST_CASE("NestedVector_BasicExample") {
 
 
     v.append(7.7); 
-     std::cout << "appended m_tree[] = ";
+     std::cout << "appended 7.7 on m_tree[] = ";
     for (auto itr : v.m_tree)
         std::cout << itr << ",";
     std::cout << std::endl;
@@ -69,15 +69,14 @@ TEST_CASE("NestedVector_BasicExample") {
 
     
 
-    v.reserve(1, 2); // Reserve space for three items at the next slot in the inner level
-    std::cout << "m_tree[] = ";
+    v.reserve(1, 2); // Reserve space for two items at the next slot in the inner level
+    std::cout << "reserved node on m_tree[] = ";
     for (auto itr : v.m_tree)
         std::cout << itr << ",";
     std::cout << std::endl;
 
-
     v.append(7.7); 
-    std::cout << "appended m_tree[] = ";
+    std::cout << "appended 7.7 on m_tree[] = ";
     for (auto itr : v.m_tree)
         std::cout << itr << ",";
     std::cout << std::endl;
@@ -88,10 +87,48 @@ TEST_CASE("NestedVector_BasicExample") {
     std::cout << std::endl; 
 
     v.append(1.9);
-    std::cout << "m_tree[] = ";
+    std::cout << "append 1.9 on m_tree[] = ";
     for (auto itr : v.m_tree)
         std::cout << itr << ",";
     std::cout << std::endl;
+
+    std::cout << "m_data[] = ";
+    for (size_t itr : v.m_data)
+        std::cout << itr << ",";
+    std::cout << std::endl; 
+
+
+    v.reserve(1, 2); // Reserve space for two items at the next slot in the inner level. The tree should now be full.
+    std::cout << "reserved node on m_tree[] = ";
+    for (auto itr : v.m_tree)
+        std::cout << itr << ",";
+    std::cout << std::endl;
+
+
+     v.append(5.7); 
+    std::cout << "appended 5.7 on m_tree[] = ";
+    for (auto itr : v.m_tree)
+        std::cout << itr << ",";
+    std::cout << std::endl;
+
+    std::cout << "m_data[] = ";
+    for (size_t itr : v.m_data)
+        std::cout << itr << ",";
+    std::cout << std::endl; 
+
+    v.append(9.9);
+    std::cout << "appended 9.9 at m_tree[] = ";
+    for (auto itr : v.m_tree)
+        std::cout << itr << ",";
+    std::cout << std::endl;
+
+    std::cout << "m_data[] = ";
+    for (size_t itr : v.m_data)
+        std::cout << itr << ",";
+    std::cout << std::endl; 
+
+
+    
 
     // Test that our NestedVector understands its own sizes
 
