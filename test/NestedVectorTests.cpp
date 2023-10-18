@@ -21,7 +21,7 @@ TEST_CASE("NestedVector_BasicExample") {
     for (auto itr : v.m_tree)
         std::cout << itr << ",";
     std::cout << std::endl;
-    std::cout << "available node: " << v.findAvailableNode() << std::endl;
+    // std::cout << "available node: " << v.findAvailableNode() << std::endl;
     std::cout << "m_tree[] size: " << v.m_tree.size() << std::endl;
 
 
@@ -30,7 +30,7 @@ TEST_CASE("NestedVector_BasicExample") {
     for (auto itr : v.m_tree)
         std::cout << itr << ",";
     std::cout << std::endl;
-    std::cout << "available node: " << v.findAvailableNode() << std::endl;
+    // std::cout << "available node: " << v.findAvailableNode() << std::endl;
     std::cout << "m_tree[] size: " << v.m_tree.size() << std::endl;
 
     v.reserve(1, 3); // Reserve space for three items at the next slot in the inner level
@@ -38,7 +38,7 @@ TEST_CASE("NestedVector_BasicExample") {
     for (auto itr : v.m_tree)
         std::cout << itr << ",";
     std::cout << std::endl;
-    std::cout << "available node: " << v.findAvailableNode() << std::endl;
+   // std::cout << "available node: " << v.findAvailableNode().value() << std::endl;
     std::cout << "m_tree[] size: " << v.m_tree.size() << std::endl;
 
     v.reserve(1, 3); // Reserve space for three items at the next slot in the inner level
@@ -46,7 +46,7 @@ TEST_CASE("NestedVector_BasicExample") {
     for (auto itr : v.m_tree)
         std::cout << itr << ",";
     std::cout << std::endl;
-    std::cout << "available node: " << v.findAvailableNode() << std::endl;
+   // std::cout << "available node: " << v.findAvailableNode().value() << std::endl;
     std::cout << "m_tree[] size: " << v.m_tree.size() << std::endl;
 
     /**

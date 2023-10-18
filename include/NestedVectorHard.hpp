@@ -2,6 +2,7 @@
 // Subject to the terms in the LICENSE file found in the top-level directory.
 
 #include "TensorIndices.hpp"
+#include <optional>
 #include <vector>
 
 class NestedVectorHard {
@@ -23,7 +24,7 @@ public:
     void reserve(size_t level, size_t count);
     void append(double data);
 
-    size_t findAvailableNode(size_t index = 0);
+    std::optional<size_t> findAvailableNode(size_t index = 0);
     bool nodeIsAvailable(size_t index);
     void incrementNodeSize(size_t index);
     void setAddressOfLeaf(size_t index);

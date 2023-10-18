@@ -2,6 +2,7 @@
 // Subject to the terms in the LICENSE file found in the top-level directory.
 
 #include <NestedVectorHard.hpp>
+#include <optional>
 
 NestedVectorHard::NestedVectorHard(size_t depth) : m_depth(depth) {
 }
@@ -26,9 +27,10 @@ void NestedVectorHard::reserve(size_t level, size_t count) {
       appendNewNodeToMainTree(count);
 
     else {
-        size_t availableNodeIndex = findAvailableNode();
-        incrementNodeSize(availableNodeIndex);
-        setAddressOfChild(availableNodeIndex);
+        std::optional<size_t> availableNodeIndex = findAvailableNode();
+        size_t existingNodeIndex = availableNodeIndex.value();
+        incrementNodeSize(existingNodeIndex);
+        setAddressOfChild(existingNodeIndex);
         appendNewNodeToMainTree(count);
         }
     }
@@ -36,7 +38,7 @@ void NestedVectorHard::reserve(size_t level, size_t count) {
 
 // Returns the starting index of the next available node in m_tree
 
-size_t NestedVectorHard::findAvailableNode(size_t index){
+std::optional<size_t> NestedVectorHard::findAvailableNode(size_t index){
     if (nodeIsAvailable(index))
         return index;
         
@@ -45,15 +47,20 @@ size_t NestedVectorHard::findAvailableNode(size_t index){
         size_t firstChild = index + 2;
         size_t lastChildIndex = index + m_tree[index] + 1;
         for (size_t childIndex = firstChild; childIndex < lastChildIndex; childIndex++){
-            findAvailableNode(m_tree[childIndex]);
-            break;
+            auto result = findAvailableNode(m_tree[childIndex]);
+            if (result != std::nullopt) {
+                return result;
+            }
         }
+        return std::nullopt;
     }
 }
 
 bool NestedVectorHard::nodeIsAvailable(size_t index){
     if (m_tree[index+1] < m_tree[index])
         return true;
+    else
+        return false;
 }
 
 /**auto NestedVectorHard::findAvailableNode(size_t index) {
@@ -128,7 +135,7 @@ void NestedVectorHard::appendNewNodeToMainTree(size_t capacity) {
 
 void NestedVectorHard::append(double data) {
     m_data.push_back(data); // append m_data vector with a value provided
-    size_t availableNodeIndex = findAvailableNode();
+    size_t availableNodeIndex = findAvailableNode().value();
     incrementNodeSize(availableNodeIndex);
     setAddressOfLeaf(availableNodeIndex);
 }
