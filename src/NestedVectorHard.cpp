@@ -142,19 +142,23 @@ void NestedVectorHard::append(double data) {
     setAddressOfLeaf(availableNodeIndex);
 }
 
-std::optional<size_t> NestedVectorHard::findNodeToAppend(size_t index){
-    // if bottom of tree is reached, return the address of the node.
-    if (m_depth == 0 && nodeIsNodeAvailable(index))
+/// Returns the address of an avaialble node at the bottom of the tree. If the current node is not at the appropriate depth, traverse down the last addressed child to the parent and repeat the search. Depth is decremented by 1 each hop down the tree. 
+std::optional<size_t> NestedVectorHard::findNodeToAppend(size_t depth, size_t index){
+    
+    size_t treeDepth = depth;
+    if (treeDepth == 0 && nodeIsAvailable(index))
         return index;
 
     else {
-        m_depth--;  // decrement depth value;
-        size_t lastAddressedNode = getLastAddressedNode(index); 
-        auto result = findNodeToAppend(lastAddressedNode);
-        if (result != std::nullopt)
+        treeDepth -= 1;  // decrement depth value;
+        size_t lastAddressedNode = getLastAddressedChild(index); 
+        auto result = findNodeToAppend(treeDepth, lastAddressedNode);
+        if (result != std::nullopt){
             return result;
-        }
+            }
         return std::nullopt;
+        }
+
         
     }
 
