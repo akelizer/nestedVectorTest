@@ -8,22 +8,16 @@ NestedVectorHard::NestedVectorHard(size_t depth) : m_depth(depth) {
 }
 
 double NestedVectorHard::get(const TensorIndices& indices) {
-    // TODO: Implement me!
     // Retrieve data from m_data by referencing NestedVector nodes. Nodes will point to corresponding elements in m_data
 
     return 0.0;
 }
 
+// Calls multiple sub functions to do the following: find an available node on the tree, increment the parent node's size counter, set the address of the new child in the parent node, and append the new node to the main tree. 
 void NestedVectorHard::reserve(size_t level, size_t count) {
     
-    /**
-     * // check if branching is allowed on current tree level
-    if (m_depth - 1 <= level)
-        m_level = level; // update current level on tree
-    else   
-        return error "out of depth";
-    **/
-   if (m_tree.size() == 0) // || if (m_tree.length() == null)? // some way to prove no node has been created yet.
+   // Tests if m_tree is empty. If so, reserve() will make the root of the tree. 
+   if (m_tree.size() == 0)
       appendNewNodeToMainTree(count);
 
     else {
@@ -62,20 +56,7 @@ bool NestedVectorHard::nodeIsAvailable(size_t index){
         return false;
 }
 
-/**auto NestedVectorHard::findAvailableNode(size_t index) {
-    if (m_tree[index+1] < m_tree[index])
-        return index;
-    else 
-        index += m_tree[index]+2;
-        findAvailableNode(index);   // forwards the function to search the first address of the next node.
-    }
-**/
-
-    //indexType AvailableNodeIndex = findNextAvailableNode(startOfTree) 
-        // recursive function to find the next available node to branch from in m_tree and return its starting index value. The available node must not be filled to capacity.
-    
-// updates values in node to reflect increase in its size.
-
+// Increments the size counter in the node.
 void NestedVectorHard::incrementNodeSize(size_t AvailableNodeIndex)
 {
     m_tree[AvailableNodeIndex+1] += 1; // increment size value in available node by 1.
@@ -83,7 +64,7 @@ void NestedVectorHard::incrementNodeSize(size_t AvailableNodeIndex)
 
 
 
-// new version of setAddressOfChild(). Subtracts the remaining branch slots from the last index in the current node to find which index to branch from.
+// Subtracts the remaining branch slots from the last index in the current node to find which index to branch from.
 void NestedVectorHard::setAddressOfChild(size_t indexOfNode) {
     size_t remainingBranches = m_tree[indexOfNode] - m_tree[indexOfNode+1];
 
@@ -109,19 +90,19 @@ void NestedVectorHard::setAddressOfLeaf(size_t indexOfNode) {
 }
 
 
-// build out empty vector to hold node's data.
+// Builds out empty vector to hold node's data.
 void NestedVectorHard::appendNewNodeToMainTree(size_t capacity) {
     std::vector<size_t> node(capacity+2);    // creates node with [0,0,0,0,0], pehaps with some constructor.
 
-    // fills the vector with 0s on first initialzation except the first index.
+    // fills the vector with 0s.
     for (auto nodeIterator : node)
             nodeIterator = 0;
     
-    // fills first node index with capacity value
+    // fills first node element with capacity value
     node[0] = capacity;
 
 
-    // appends new node values to m_tree.
+    // appends new node to m_tree.
     for (auto nodeIterator : node)
         m_tree.push_back(nodeIterator);
 }
@@ -136,7 +117,9 @@ void NestedVectorHard::append(double data) {
     setAddressOfLeaf(availableIndex);
 }
 
-/// Returns the address of an avaialble node at the bottom of the tree. If the current node is not at the appropriate depth, traverse down the last addressed child to the parent and repeat the search. Depth is decremented by 1 each hop down the tree. 
+// Returns the address of an avaialble node at the bottom of the tree. If the current node is not at the appropriate depth, traverse down the last addressed child to the parent and repeat the search. Depth is decremented by 1 each hop down the tree. 1 is the lowest depth for a node, 0 being the level of a leaf.
+
+// Nullopt will be returned if the tree has not been built to reach a depth of 1.
 std::optional<size_t> NestedVectorHard::findNodeToAppend(size_t index){
     size_t appendIndex = index;
     int treeDepth = m_depth;
@@ -147,7 +130,6 @@ std::optional<size_t> NestedVectorHard::findNodeToAppend(size_t index){
         else 
             appendIndex = getLastChildAddress(appendIndex);
     }
-
     return std::nullopt; // exception value if no available nodes.
     }
 
