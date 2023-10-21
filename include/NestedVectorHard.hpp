@@ -15,6 +15,11 @@ private:
     **/
     
 public:
+
+    size_t m_depth;
+    size_t m_level;
+    std:: vector<double> m_data;
+    std:: vector<int> m_tree;
     NestedVectorHard(size_t depth);
 
     size_t depth();
@@ -24,7 +29,7 @@ public:
     void reserve(size_t level, size_t count);
     void append(double data);
 
-    std::optional<size_t> findAvailableNode(size_t index = 0);
+    std::optional<size_t> findAvailableNode(size_t depth, size_t index = 0);
     std::optional<size_t> findNodeToAppend(size_t index = 0);
     bool nodeIsAvailable(size_t index);
     void incrementNodeSize(size_t index);
@@ -32,14 +37,6 @@ public:
     void setAddressOfChild(size_t index);
     void appendNewNodeToMainTree(size_t index);
     size_t getLastChildAddress(size_t index);
-
-
-
-
-    size_t m_depth;
-    size_t m_level;
-    std:: vector<double> m_data;
-    std:: vector<int> m_tree;
 };
 
 
