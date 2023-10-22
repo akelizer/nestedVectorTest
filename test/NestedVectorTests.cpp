@@ -9,14 +9,14 @@ TEST_CASE("NestedVector_BasicExample") {
 
     //std::cout << "testing the cout function." << std::endl;
 
-    NestedVectorHard v(2);
+    NestedVectorHard v(3);
     //REQUIRE(v.depth() == 2);
 
     // Test reserving and appending
 
     // std::cout << "m_tree[] size: " << v.m_tree.size() << std::endl;
 
-    v.reserve(0, 3); // Reserve space for three items at the outer level
+    v.reserve(0, 2); // Reserve space for three items at the outer level
     std::cout << "reserved node on m_tree[] = ";
     for (auto itr : v.m_tree)
         std::cout << itr << ",";
@@ -28,6 +28,38 @@ TEST_CASE("NestedVector_BasicExample") {
     for (auto itr : v.m_tree)
         std::cout << itr << ",";
     std::cout << std::endl;
+
+    v.reserve(1, 2); // Reserve space for two items at the next slot in the inner level
+    std::cout << "reserved node on m_tree[] = ";
+    for (auto itr : v.m_tree)
+        std::cout << itr << ",";
+    std::cout << std::endl;
+
+    v.reserve(1, 2); // Reserve space for two items at the next slot in the inner level
+    std::cout << "reserved node on m_tree[] = ";
+    for (auto itr : v.m_tree)
+        std::cout << itr << ",";
+    std::cout << std::endl;
+
+    v.reserve(1, 2); // Reserve space for two items at the next slot in the inner level
+    std::cout << "reserved node on m_tree[] = ";
+    for (auto itr : v.m_tree)
+        std::cout << itr << ",";
+    std::cout << std::endl;
+
+    v.reserve(1, 2); // Reserve space for two items at the next slot in the inner level
+    std::cout << "reserved node on m_tree[] = ";
+    for (auto itr : v.m_tree)
+        std::cout << itr << ",";
+    std::cout << std::endl;
+
+    v.reserve(1, 2); // Reserve space for two items at the next slot in the inner level
+    std::cout << "reserved node on m_tree[] = ";
+    for (auto itr : v.m_tree)
+        std::cout << itr << ",";
+    std::cout << std::endl;
+
+    
 
     v.append(7.7); 
     std::cout << "appended 7.7 on m_tree[] = ";
