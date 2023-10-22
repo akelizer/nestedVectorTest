@@ -9,12 +9,11 @@ NestedVectorHard::NestedVectorHard(size_t depth) : m_depth(depth) {
 
 double NestedVectorHard::get(const TensorIndices& indices) {
     // Retrieve data from m_data by referencing NestedVector nodes. Nodes will point to corresponding elements in m_data
-    
     size_t node = 0;
     size_t size = indices.get_dim_count();
     for (size_t index = 0; index < size; index++){
-        size_t branchNum = indices.get_index(index);
-        size_t node = m_tree[node+2+branchNum];
+        size_t branchIndex = node + 2 + indices.get_index(index);
+        node = m_tree[branchIndex];
         if (index == size-1)
             return m_data[node];
     }
