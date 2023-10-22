@@ -9,9 +9,17 @@ NestedVectorHard::NestedVectorHard(size_t depth) : m_depth(depth) {
 
 double NestedVectorHard::get(const TensorIndices& indices) {
     // Retrieve data from m_data by referencing NestedVector nodes. Nodes will point to corresponding elements in m_data
-
-    return 0.0;
-}
+    
+    size_t node = 0;
+    size_t size = indices.get_dim_count();
+    for (size_t index = 0; index < size; index++){
+        size_t branchNum = indices.get_index(index);
+        size_t node = m_tree[node+2+branchNum];
+        if (index == size-1)
+            return m_data[node];
+    }
+    return m_data[node];
+    }
 
 // Calls multiple sub functions to do the following: find an available node on the tree, increment the parent node's size counter, set the address of the new child in the parent node, and append the new node to the main tree. 
 void NestedVectorHard::reserve(size_t level, size_t count) {
@@ -29,8 +37,7 @@ void NestedVectorHard::reserve(size_t level, size_t count) {
         }
     }
     
-
-// Finds the starting index of the next available node in m_tree. Returns nullopt if no available node is found.
+ //Finds the starting index of the next available node in m_tree. Returns nullopt if no available node is found.
 std::optional<size_t> NestedVectorHard::findAvailableNode(size_t depth, size_t index){
     int treeDepth = depth;
     for (treeDepth; treeDepth >=1; treeDepth--){
@@ -40,7 +47,7 @@ std::optional<size_t> NestedVectorHard::findAvailableNode(size_t depth, size_t i
             treeDepth--;
             size_t firstChild = index + 2;
             size_t lastChildIndex = index + m_tree[index] + 1;
-            for (size_t childIndex = firstChild; childIndex < lastChildIndex; childIndex++){
+            for (size_t childIndex = firstChild; childIndex <= lastChildIndex; childIndex++){
                 auto result = findAvailableNode(treeDepth, m_tree[childIndex]);
                 if (result != std::nullopt) 
                     return result;
@@ -50,7 +57,10 @@ std::optional<size_t> NestedVectorHard::findAvailableNode(size_t depth, size_t i
     }
 
     return std::nullopt;
+
 }
+
+
 
 bool NestedVectorHard::nodeIsAvailable(size_t index){
     if (m_tree[index+1] < m_tree[index])
@@ -58,6 +68,41 @@ bool NestedVectorHard::nodeIsAvailable(size_t index){
     else
         return false;
 }
+
+/**
+std::optional<size_t> NestedVectorHard::findAvailableNode(size_t depth, size_t index){
+    int treeDepth = depth;
+    size_t firstChild = index + 2;
+    size_t lastChildIndex = index + m_tree[index] + 1;
+
+    for (treeDepth; treeDepth >=1; treeDepth--){
+        if (nodeIsAvailable(index) && treeDepth > 1)
+            return index;
+        else {
+            auto result = findAvailableNode(treeDepth, m_tree[firstChild]);
+            if (result != std::nullopt)
+                return result;
+        }
+    }
+
+
+
+    for (size_t childIndex = firstChild; childIndex <= lastChildIndex; childIndex++){
+        if (nodeIsAvailable(index) && treeDepth > 1)
+            return index;
+        else {
+            treeDepth--;
+            auto result = findAvailableNode(treeDepth, m_tree[childIndex]);
+            if (result != std::nullopt)
+                return result;
+        }
+    return std::nullopt;
+    
+    }
+    return std::nullopt;
+}
+
+**/
 
 // Increments the size counter in the node.
 void NestedVectorHard::incrementNodeSize(size_t AvailableNodeIndex)
