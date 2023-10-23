@@ -28,7 +28,7 @@ void NestedVectorHard::reserve(size_t level, size_t count) {
       appendNewNodeToMainTree(count);
 
     else {
-        std::optional<size_t> availableNodeIndex = findAvailableNode(level, count);
+        std::optional<size_t> availableNodeIndex = findNodeToReserve(level);
         size_t existingNodeIndex = availableNodeIndex.value();
         incrementNodeSize(existingNodeIndex);
         setAddressOfChild(existingNodeIndex);
@@ -36,28 +36,6 @@ void NestedVectorHard::reserve(size_t level, size_t count) {
         }
     }
 
-/**
- //Finds the starting index of the next available node in m_tree. Returns nullopt if no available node is found.
-std::optional<size_t> NestedVectorHard::findAvailableNode(size_t depth, size_t index){
-    int treeDepth = depth;
-    for (treeDepth; treeDepth >=1; treeDepth--){
-        if (nodeIsAvailable(index) && treeDepth != 1)
-            return index;
-        else{
-            treeDepth--;
-            size_t firstChild = index + 2;
-            size_t lastChildIndex = index + m_tree[index] + 1;
-            for (size_t childIndex = firstChild; childIndex <= lastChildIndex; childIndex++){
-                auto result = findAvailableNode(treeDepth, m_tree[childIndex]);
-                if (result != std::nullopt) 
-                    return result;
-            }
-        return std::nullopt;
-        }
-    }
-    return std::nullopt;
-}
-**/
 bool NestedVectorHard::nodeIsAvailable(size_t index){
     if (m_tree[index+1] < m_tree[index])
         return true;
@@ -65,9 +43,10 @@ bool NestedVectorHard::nodeIsAvailable(size_t index){
         return false;
 }
 
-std::optional<size_t> NestedVectorHard::findAvailableNode(size_t reserveDepth, size_t index){
+//Returns the address of an available node who has space for child nodes to be reserved at the specifice level in the tree. This function looks down the tree at the next depth level for available space. 
+std::optional<size_t> NestedVectorHard::findNodeToReserve(size_t reserveDepth, size_t index){
   size_t reserveIndex = index;
-  size_t currentDepth = m_depth;
+  size_t currentDepth = m_depth-1;
 
   for (currentDepth; currentDepth >= reserveDepth; currentDepth--){
     if (nodeIsAvailable(reserveIndex) && currentDepth == reserveDepth)
@@ -155,11 +134,18 @@ std::optional<size_t> NestedVectorHard::findNodeToAppend(size_t index){
     return std::nullopt; // exception value if no available nodes.
     }
 
+//Returns the last addressed Child in the node. If the node is emtpy, it will return the first child index in the node.
 size_t NestedVectorHard::getLastChildAddress(size_t index){
     size_t sizeIndex = index + 1;
     size_t sizeValue = m_tree[sizeIndex];
+    if (sizeValue == 0){
+         size_t lastChildAddress = m_tree[sizeIndex+1];
+         return lastChildAddress;
+    }
+    else {
     size_t lastChildAddress = m_tree[sizeIndex + sizeValue]; 
     return lastChildAddress;
+    }
 }
 
 

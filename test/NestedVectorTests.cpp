@@ -173,6 +173,72 @@ TEST_CASE("NestedVector_BasicExample") {
     std::cout << "get{1,0,0}: " << v.get({1,0,0}) << std::endl;
     std::cout << "get{1,1,1}: " << v.get({1,1,1}) << std::endl;
 
+////////////////////////////////////////////////////////////////////
+
+
+    NestedVectorHard b(2);
+
+    b.reserve(2, 5);
+
+     std::cout << "reserved node on m_tree[] = ";
+    for (auto itr : b.m_tree)
+        std::cout << itr << ",";
+    std::cout << std::endl;
+
+    b.reserve(1,2);
+    b.append(2.2);
+    b.append(5.1);
+
+     std::cout << "reserved node on m_tree[] = ";
+    for (auto itr : b.m_tree)
+        std::cout << itr << ",";
+    std::cout << std::endl;
+
+    b.reserve(1,2);
+    b.append(99.9);
+    b.append(1000.1);
+
+     std::cout << "reserved node on m_tree[] = ";
+    for (auto itr : b.m_tree)
+        std::cout << itr << ",";
+    std::cout << std::endl;
+
+    b.reserve(1,1);
+    b.append(3.33);
+
+    std::cout << "reserved node on m_tree[] = ";
+    for (auto itr : b.m_tree)
+        std::cout << itr << ",";
+    std::cout << std::endl;
+
+    b.reserve(1,1);
+    b.append(949.21);
+
+     std::cout << "reserved node on m_tree[] = ";
+    for (auto itr : b.m_tree)
+        std::cout << itr << ",";
+    std::cout << std::endl;
+
+    b.reserve(1,2);
+    b.append(23);
+    b.append(12.12);
+
+    std::cout << "reserved node on m_tree[] = ";
+    for (auto itr : b.m_tree)
+        std::cout << itr << ",";
+    std::cout << std::endl;
+
+    std::cout << "m_data[] = ";
+    for (size_t itr : b.m_data)
+        std::cout << itr << ",";
+    std::cout << std::endl; 
+
+    std::cout << "get(0,0) : " << b.get({0,0}) << std::endl;
+    std::cout << "get(1,0) : " << b.get({1,0}) << std::endl;
+    std::cout << "get(4,0) : " << b.get({4,0}) << std::endl;
+
+
+
 
     // Test that our NestedVector understands its own sizes
 

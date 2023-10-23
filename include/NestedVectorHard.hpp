@@ -29,7 +29,7 @@ public:
     void reserve(size_t level, size_t count);
     void append(double data);
 
-    std::optional<size_t> findAvailableNode(size_t depth, size_t index = 0);
+    std::optional<size_t> findNodeToReserve(size_t depth, size_t index = 0);
     std::optional<size_t> findNodeToAppend(size_t index = 0);
     bool nodeIsAvailable(size_t index);
     void incrementNodeSize(size_t index);
