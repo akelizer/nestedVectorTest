@@ -51,6 +51,27 @@ TEST_CASE("NestedVector_BasicExample") {
     std::cout << std::endl;
 
 
+    v.reserve(1, 2); // Reserve space for two items at the next slot in the inner level
+    std::cout << "reserved node on m_tree[] = ";
+    for (auto itr : v.m_tree)
+        std::cout << itr << ",";
+    std::cout << std::endl;
+
+
+    std::vector<double> data3 = {2.2, 4.4, 5.5, 1.2, 5.9};
+    v.append(data3);
+
+    for (auto itr : v.m_data)
+        std::cout << itr << ",";
+    std::cout << std::endl;
+
+
+    std::cout << "m_tree[] = ";
+    for (auto itr : v.m_tree)
+        std::cout << itr << ",";
+    std::cout << std::endl;
+
+
 }
 
 //TEST_CASE("NestedVector_AnotherExample") {

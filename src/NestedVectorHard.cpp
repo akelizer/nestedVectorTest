@@ -88,7 +88,7 @@ void NestedVectorHard::setAddressOfLeaf(size_t indexOfNode) {
     size_t lastIndexOfNode = indexOfNode + sizeOfNode;
 
     size_t indexOfAvailableBranch = lastIndexOfNode - remainingBranches; 
-    m_tree[indexOfAvailableBranch] = m_data.size()-1; // address this element to the last index in m_data[]
+    m_tree[indexOfAvailableBranch] = m_data.size(); // address this element to the last index in m_data[]
 }
 
 
@@ -112,15 +112,19 @@ void NestedVectorHard::appendNewNodeToMainTree(size_t capacity) {
 // Appends a vector of data to a tree leaf. This should be flexible to accomodate multidimensional arrays or matrices.
 void NestedVectorHard::append(std::vector<double> &data) {
 
-    for (auto value : data){
-    m_data.push_back(value);
-    }
+    //for (auto value : data){
+    //m_data.push_back(value);
+    //}
 
 
     std::optional<size_t> resultIndex = findNodeToAppend();
     size_t availableIndex = resultIndex.value();
     incrementNodeSize(availableIndex);
     setAddressOfLeaf(availableIndex);
+
+    for (auto value : data){
+        m_data.push_back(value);
+    }
 }
 
 // Returns the address of an avaialble node at the bottom of the tree. If the current node is not at the appropriate depth, traverse down the last addressed child to the parent and repeat the search. Depth is decremented by 1 each hop down the tree. 1 is the lowest depth for a node, 0 being the level of a leaf.
