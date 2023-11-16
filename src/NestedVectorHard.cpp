@@ -109,8 +109,12 @@ void NestedVectorHard::appendNewNodeToMainTree(size_t capacity) {
         m_tree.push_back(nodeIterator);
 }
 
-void NestedVectorHard::append(double data) {
-    m_data.push_back(data); // append m_data vector with a value provided
+// Appends a vector of data to a tree leaf. This should be flexible to accomodate multidimensional arrays or matrices.
+void NestedVectorHard::append(std::vector<double> &data) {
+
+    for (auto value : data){
+    m_data.push_back(value);
+    }
 
 
     std::optional<size_t> resultIndex = findNodeToAppend();

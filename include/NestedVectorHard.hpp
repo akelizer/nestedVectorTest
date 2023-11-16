@@ -27,7 +27,7 @@ public:
 
     double get(const TensorIndices& indices);
     void reserve(size_t level, size_t count);
-    void append(double data);
+    void append(std::vector<double> &data);
 
     std::optional<size_t> findNodeToReserve(size_t depth, size_t index = 0);
     std::optional<size_t> findNodeToAppend(size_t index = 0);
