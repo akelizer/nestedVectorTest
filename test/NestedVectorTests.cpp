@@ -58,9 +58,12 @@ TEST_CASE("NestedVector_BasicExample") {
     std::cout << std::endl;
 
 
+    TensorIndices data4({5,4});
+    std::cout << "data4 dimensions: " << data4.get_dim_count() << std::endl;
     std::vector<double> data3 = {2.2, 4.4, 5.5, 1.2, 5.9};
     v.append(data3);
 
+    std::cout << "m_data[] = ";
     for (auto itr : v.m_data)
         std::cout << itr << ",";
     std::cout << std::endl;

@@ -7,6 +7,8 @@
 NestedVectorHard::NestedVectorHard(size_t depth) : m_depth(depth) {
 }
 
+
+/**
 double NestedVectorHard::get(const TensorIndices& indices) {
     // Retrieve data from m_data by referencing NestedVector nodes. Nodes will point to corresponding elements in m_data
     size_t node = 0;
@@ -20,7 +22,7 @@ double NestedVectorHard::get(const TensorIndices& indices) {
     return m_data[node];
     }
 
-
+**/
 
 
 // get() travels down the tree by as many levels as needed to reach the desired leaf index. Stores the starting index of the desired vector in m_data[] from leafIndex. Traverses the vector indices by as many dimensions held by the vector.
@@ -30,10 +32,12 @@ double NestedVectorHard::get(const TensorIndices& indices){
         size_t treeIndex = index + 2 + indices.get_index(tensorIndex);
         index = m_tree[treeIndex];
     }
+
     size_t dataIndex = index;
     for (size_t tensorIndex = m_tree.size(); tensorIndex < indices.get_dim_count(); tensorIndex++){
         size_t dataIndex =+ indices.get_index(tensorIndex);
     }
+
     return m_data[dataIndex];
 
 }
