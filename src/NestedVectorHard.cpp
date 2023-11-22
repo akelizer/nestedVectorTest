@@ -25,22 +25,24 @@ double NestedVectorHard::get(const TensorIndices& indices) {
 **/
 
 
-// get() travels down the tree by as many levels as needed to reach the desired leaf index. Stores the starting index of the desired vector in m_data[] from leafIndex. Traverses the vector indices by as many dimensions held by the vector.
+// get() travels down the tree by as many levels as needed to reach the desired leaf node. Stores the starting index of the desired tensor in m_data[]. Traverses the vector indices by as many dimensions held by the vector.
 double NestedVectorHard::get(const TensorIndices& indices){
     size_t index = 0;
-    for (size_t tensorIndex = 0; tensorIndex < m_tree.size(); tensorIndex++){
+    for (size_t tensorIndex = 0; tensorIndex < m_depth; tensorIndex++){
         size_t treeIndex = index + 2 + indices.get_index(tensorIndex);
         index = m_tree[treeIndex];
     }
+    //return m_data[index];
 
     size_t dataIndex = index;
-    for (size_t tensorIndex = m_tree.size(); tensorIndex < indices.get_dim_count(); tensorIndex++){
-        size_t dataIndex =+ indices.get_index(tensorIndex);
+    for (size_t tensorIndex = m_depth; tensorIndex < indices.get_dim_count(); tensorIndex++){
+        dataIndex += indices.get_index(tensorIndex);
     }
 
     return m_data[dataIndex];
-
 }
+
+
 
 // Calls multiple sub functions to do the following: find an available node on the tree, increment the parent node's size counter, set the address of the new child in the parent node, and append the new node to the main tree. 
 void NestedVectorHard::reserve(size_t level, size_t count) {
